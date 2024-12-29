@@ -45,6 +45,5 @@ class Edge:
         twin_id = id(self.twin) if self.twin else None
         next_id = id(self.next) if self.next else None
         prev_id = id(self.prev) if self.prev else None
-        face_id = id(self.incident_face) if self.incident_face else None
         return (f"Edge(start=({self.start.x}, {self.start.y}), "
-                f"twin={twin_id}, next={next_id}, prev={prev_id}, face={face_id})")
+                f"twin={twin_id}, next={next_id}, prev={prev_id}, face={self.incident_face.id})")
