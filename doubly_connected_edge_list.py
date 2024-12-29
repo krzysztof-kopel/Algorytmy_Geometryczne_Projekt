@@ -11,7 +11,8 @@ class Vertex:
         self.half_edge = None
 
 class Face:
-    def __init__(self):
+    def __init__(self, identifier):
+        self.id = identifier
         self.outer_half_edge: Edge = None
         self.inner_half_edges = []
 
