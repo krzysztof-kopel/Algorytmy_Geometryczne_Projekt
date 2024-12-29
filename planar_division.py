@@ -29,6 +29,7 @@ class Polygon:
         # Buduj siatkę z ograniczeniami
         mesh = build(mesh_info)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
+        triangles = [Triangle(*triangle) for triangle in triangles]
         self.triangles.append(triangles)
         return triangles
 
