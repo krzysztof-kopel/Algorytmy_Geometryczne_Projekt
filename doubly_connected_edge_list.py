@@ -12,13 +12,14 @@ class EdgeList:
 
 
 class Vertex:
-    def __init__(self, coord_x, coord_y):
+    def __init__(self, coord_x, coord_y, identifier):
+        self.id = identifier
         self.x = coord_x
         self.y = coord_y
         self.half_edge = None
 
     def __repr__(self):
-        return f"Vertex(x={self.x}, y={self.y}, half_edge={id(self.half_edge)})"
+        return f"Vertex(id={self.id}, x={self.x}, y={self.y}, half_edge={self.half_edge.id})"
 
 
 class Face:
@@ -28,13 +29,12 @@ class Face:
         self.inner_half_edges = []
 
     def __repr__(self):
-        outer_id = id(self.outer_half_edge) if self.outer_half_edge else None
-        inner_ids = [id(edge) for edge in self.inner_half_edges]
-        return f"Face(id={self.id}, outer_half_edge={outer_id}, inner_half_edges={inner_ids})"
+        return f"Face(id={self.id}, outer_half_edge={self.outer_half_edge.id}, inner_half_edges={[e.id for e in self.inner_half_edges]})"
 
 
 class Edge:
-    def __init__(self, start: Vertex):
+    def __init__(self, start: Vertex, identifier):
+        self.id = identifier
         self.start: Vertex = start
         self.twin: Edge = None
         self.incident_face = None
@@ -42,8 +42,5 @@ class Edge:
         self.prev = None
 
     def __repr__(self):
-        twin_id = id(self.twin) if self.twin else None
-        next_id = id(self.next) if self.next else None
-        prev_id = id(self.prev) if self.prev else None
         return (f"Edge(start=({self.start.x}, {self.start.y}), "
-                f"twin={twin_id}, next={next_id}, prev={prev_id}, face={self.incident_face.id})")
+                f"twin={self.twin.id}, next={self.next.id}, prev={self.prev.id}, face={self.incident_face.id})")
