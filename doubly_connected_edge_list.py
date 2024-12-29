@@ -42,5 +42,5 @@ class Edge:
         self.prev = None
 
     def __repr__(self):
-        return (f"Edge(start=({self.start.x}, {self.start.y}), "
+        return (f"Edge(id={self.id} start=({self.start.x}, {self.start.y}), "
                 f"twin={self.twin.id}, next={self.next.id}, prev={self.prev.id}, face={self.incident_face.id})")
