@@ -30,7 +30,7 @@ class Face:
     def __repr__(self):
         outer_id = id(self.outer_half_edge) if self.outer_half_edge else None
         inner_ids = [id(edge) for edge in self.inner_half_edges]
-        return f"Face(outer_half_edge={outer_id}, inner_half_edges={inner_ids})"
+        return f"Face(id={self.id}, outer_half_edge={outer_id}, inner_half_edges={inner_ids})"
 
 
 class Edge:
