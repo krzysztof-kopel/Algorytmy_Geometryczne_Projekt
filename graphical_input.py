@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from planar_division import Division
+from planar_division import Division, Polygon
 
 
 class PolygonDrawer:
@@ -64,8 +64,10 @@ class PolygonDrawer:
     def set_division(self):
         plt.show()
         division = Division()
-        for polygon in self.polygons:
-            division.polygons.append(polygon)
+        for polygon_points in self.polygons:
+            next_polygon = Polygon()
+            next_polygon.points = polygon_points
+            division.polygons.append(next_polygon)
         return division
 
 if __name__ == "__main__":
