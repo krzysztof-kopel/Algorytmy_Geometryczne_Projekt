@@ -8,6 +8,9 @@ class Division:
         # Pierwszy wielokąt reprezentuje wszystko co znajduje się "na zewnątrz" podziału planarnego.
         self.polygons.append(Polygon())
 
+    def __repr__(self):
+        return f"Division(polygons={self.polygons})"
+
 class Polygon:
     # W teorii moglibyśmy indeksować wielokąty po ich pozycji w tablicy w Division, ale tak chyba będzie lepiej zwrócić
     # jako output użytkownikowi.
@@ -32,6 +35,9 @@ class Polygon:
         triangles = [Triangle(*triangle) for triangle in triangles]
         self.triangles.append(triangles)
         return triangles
+
+    def __repr__(self):
+        return f"Polygon(id={self.id}, points={self.points})"
 
 class Triangle:
     def __init__(self, point_a, point_b, point_c):
