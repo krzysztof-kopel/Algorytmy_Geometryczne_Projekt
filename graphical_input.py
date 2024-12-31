@@ -92,7 +92,10 @@ class PolygonDrawer:
         division.searched_point = self.searched_point
         return division
 
-if __name__ == "__main__":
+def draw_polygonal_division():
     drawer = PolygonDrawer()
     division = drawer.set_division()
-    print(division)
+    return division
+
+if __name__ == "__main__":
+    print(draw_polygonal_division())
