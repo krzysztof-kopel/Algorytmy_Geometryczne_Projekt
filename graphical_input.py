@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+from matplotlib.widgets import Button
 from planar_division import Division, Polygon
 
 
@@ -17,7 +17,13 @@ class PolygonDrawer:
         self.ax.set_xlim(0, 50)
         self.ax.set_ylim(0, 50)
 
+        button_ax = plt.axes([0.3, 0.015, 0.4, 0.04])
+        self.button = Button(button_ax, 'Dodaj poszukiwany punkt')
+
     def on_click(self, event):
+        if event.inaxes != self.ax:
+            return
+
         if event.button == 1:
             point = (event.xdata, event.ydata)
 
