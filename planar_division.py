@@ -12,6 +12,16 @@ class Division:
     def __repr__(self):
         return f"Division(polygons={self.polygons})"
 
+    @staticmethod
+    def division_from_polygons_array(polygons: list[list[tuple[int, int]]]) -> 'Division':
+        division = Division()
+        for polygon_points in polygons:
+            next_polygon = Polygon()
+            next_polygon.points = polygon_points
+            division.polygons.append(next_polygon)
+        return division
+
+
 class Polygon:
     # W teorii moglibyśmy indeksować wielokąty po ich pozycji w tablicy w Division, ale tak chyba będzie lepiej zwrócić
     # jako output użytkownikowi.

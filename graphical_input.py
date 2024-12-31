@@ -69,12 +69,7 @@ class PolygonDrawer:
 
     def set_division(self):
         plt.show()
-        division = Division()
-        for polygon_points in self.polygons:
-            next_polygon = Polygon()
-            next_polygon.points = polygon_points
-            division.polygons.append(next_polygon)
-        return division
+        return Division.division_from_polygons_array(self.polygons)
 
 if __name__ == "__main__":
     drawer = PolygonDrawer()
