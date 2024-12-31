@@ -10,7 +10,7 @@ class Division:
         self.searched_point = None
 
     def __repr__(self):
-        return f"Division(polygons={self.polygons})"
+        return f"Division(searched_point={self.searched_point} polygons={self.polygons})"
 
     @staticmethod
     def division_from_polygons_array(polygons: list[list[tuple[int, int]]]) -> 'Division':
