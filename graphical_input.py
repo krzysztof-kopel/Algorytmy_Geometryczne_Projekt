@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-
-from planar_division import Division, Polygon
+from matplotlib.widgets import Button
+from planar_division import Division
 
 
 class PolygonDrawer:
@@ -10,14 +10,22 @@ class PolygonDrawer:
         self.current_polygon = []
         self.current_polygon_start_point = None
         self.all_points = []
-        self.fig.canvas.mpl_connect("button_press_event", self.on_click)
+        self.searched_point = None
+        self.current_click_event = self.fig.canvas.mpl_connect("button_press_event", self.on_click)
 
         self.ax.set_title("Obecnie rysujesz wielokąt nr 0")
         self.ax.set_aspect('equal')
         self.ax.set_xlim(0, 50)
         self.ax.set_ylim(0, 50)
 
+        button_ax = plt.axes([0.3, 0.015, 0.4, 0.04])
+        self.button = Button(button_ax, 'Dodaj poszukiwany punkt')
+        self.button.on_clicked(self.on_button_click)
+
     def on_click(self, event):
+        if event.inaxes != self.ax:
+            return
+
         if event.button == 1:
             point = (event.xdata, event.ydata)
 
@@ -55,22 +63,39 @@ class PolygonDrawer:
 
             self.fig.canvas.draw()
 
+    def on_point_search_click(self, event):
+        if event.inaxes != self.ax:
+            return
+        self.ax.set_title("Można zamknąć to okno.\nPodział planarny i poszukiwany punkt zostały zapisane")
+        self.fig.canvas.mpl_disconnect(self.current_click_event)
+        self.searched_point = (event.xdata, event.ydata)
+        self.ax.plot(event.xdata, event.ydata, 'go')
+        self.fig.canvas.draw()
+
     def find_nearby_point(self, x, y):
         for point in self.all_points:
             if ((point[0] - x) ** 2 + (point[1] - y) ** 2) ** 0.5 < 1:
                 return point
         return None
 
+    # noinspection PyUnusedLocal
+    def on_button_click(self, event):
+        self.button.set_active(False)
+        self.fig.canvas.mpl_disconnect(self.current_click_event)
+        self.current_click_event = self.fig.canvas.mpl_connect("button_press_event", self.on_point_search_click)
+        self.ax.set_title("Wybierz poszukwiany punkt")
+        self.fig.canvas.draw()
+
     def set_division(self):
         plt.show()
-        division = Division()
-        for polygon_points in self.polygons:
-            next_polygon = Polygon()
-            next_polygon.points = polygon_points
-            division.polygons.append(next_polygon)
+        division = Division.division_from_polygons_array(self.polygons)
+        division.searched_point = self.searched_point
         return division
 
-if __name__ == "__main__":
+def draw_polygonal_division():
     drawer = PolygonDrawer()
     division = drawer.set_division()
-    print(division)
+    return division
+
+if __name__ == "__main__":
+    print(draw_polygonal_division())
