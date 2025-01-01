@@ -5,8 +5,9 @@ from util import mat_det
 class Division:
     def __init__(self):
         self.polygons = []
-        # Pierwszy wielokąt reprezentuje wszystko co znajduje się "na zewnątrz" podziału planarnego.
+        # Pierwszy wielokąt reprezentuje super trójkąt.
         self.polygons.append(Polygon())
+        # Domyślny poszukiwany punkt.
         self.searched_point = (25, 25)
 
     def __repr__(self):
@@ -26,6 +27,19 @@ class Division:
             if len(polygon.points) == 0:
                 continue
             polygon.triangulate()
+
+    def set_supertriangle(self):
+        points = [point for polygon in self.polygons for point in polygon.points]
+        min_x = min(point[0] for point in points)
+        max_x = max(point[0] for point in points)
+        min_y = min(point[1] for point in points)
+        max_y = max(point[1] for point in points)
+        dif_x = max_x - min_x
+        dif_y = max_y - min_y
+        p1 = (min_x - dif_x, min_y - dif_y)
+        p2 = (max_x + 2 * dif_x, min_y - dif_y)
+        p3 = (min_x - dif_x, max_y + 2 * dif_y)
+        self.polygons[0].points = [p1, p2, p3]
 
 
 class Polygon:
