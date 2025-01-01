@@ -41,12 +41,7 @@ class DivsionDrawer:
 
 if __name__ == "__main__":
     from file_input import get_division_from_file
-    from graphical_input import draw_polygonal_division
     division = get_division_from_file("test_output_presentation.txt")
     division.triangulate_all()
     drawer = DivsionDrawer(division)
     drawer.draw(with_triangles=True)
-    # division = draw_polygonal_division()
-    # division.triangulate_all()
-    # drawer = DivsionDrawer(division)
-    # drawer.draw(with_triangles=True)
