@@ -53,10 +53,10 @@ class PolygonDrawer:
                 self.ax.plot(self.current_polygon_start_point[0], self.current_polygon_start_point[1], 'bo')
                 if len(self.current_polygon) > 1:
                     x, y = zip(*[self.current_polygon[-1], self.current_polygon[0]])
-                    self.ax.plot(x, y, 'r-')
+                    self.ax.plot(x, y, 'k-')
                 for i in range(len(self.current_polygon) - 1):
                     x, y = zip(*[self.current_polygon[i], self.current_polygon[i + 1]])
-                    self.ax.plot(x, y, 'r-')
+                    self.ax.plot(x, y, 'k-')
                 self.polygons.append(self.current_polygon)
                 self.current_polygon = []
                 self.current_polygon_start_point = None
