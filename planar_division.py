@@ -21,6 +21,10 @@ class Division:
             division.polygons.append(next_polygon)
         return division
 
+    def triangulate_all(self):
+        for polygon in self.polygons:
+            polygon.triangulate()
+
 
 class Polygon:
     # W teorii moglibyśmy indeksować wielokąty po ich pozycji w tablicy w Division, ale tak chyba będzie lepiej zwrócić
