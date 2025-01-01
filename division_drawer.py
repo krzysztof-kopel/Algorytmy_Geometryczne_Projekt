@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+
+from planar_division import Division
 from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 class DivisionDrawer:
@@ -38,6 +40,10 @@ class DivisionDrawer:
                         self.ax.plot(x, y, 'r-')
         self.fig.canvas.draw()
         plt.show()
+
+def draw_polygonal_division(division: Division, with_triangles: bool = False):
+    drawer = DivisionDrawer(division)
+    drawer.draw(with_triangles=with_triangles)
 
 if __name__ == "__main__":
     from file_input import get_division_from_file

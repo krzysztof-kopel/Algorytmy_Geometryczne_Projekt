@@ -12,6 +12,7 @@ def get_division_from_file(file_path: str) -> Division:
                 x, y = map(lambda x: float(x), point.split(', '))
                 polygon.points.append((x, y))
             division.polygons.append(polygon)
+    division.set_supertriangle()
     return division
 
 def save_division_to_file(division: Division, file_path: str) -> None:

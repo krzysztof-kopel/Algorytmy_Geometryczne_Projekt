@@ -4,7 +4,7 @@ from planar_division import Division
 from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 
-class PolygonDrawer:
+class PolygonSetter:
     def __init__(self):
         self.fig, self.ax = plt.subplots()
         self.polygons = []
@@ -93,10 +93,11 @@ class PolygonDrawer:
         division.searched_point = self.searched_point
         return division
 
-def draw_polygonal_division():
-    drawer = PolygonDrawer()
+def set_polygonal_division():
+    drawer = PolygonSetter()
     division = drawer.set_division()
+    division.set_supertriangle()
     return division
 
 if __name__ == "__main__":
-    print(draw_polygonal_division())
+    print(set_polygonal_division())
