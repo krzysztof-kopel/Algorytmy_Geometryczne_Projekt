@@ -47,7 +47,7 @@ class Polygon:
         mesh_info.set_facets(segments)  # Lista segmentów jako par indeksów
 
         # Buduj siatkę z ograniczeniami
-        mesh = build(mesh_info)
+        mesh = build(mesh_info, quality_meshing=False)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
         triangles = [Triangle(*triangle) for triangle in triangles]
         self.triangles = triangles
@@ -61,9 +61,9 @@ class Triangle:
         # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
         if mat_det(point_a, point_b, point_c) < 0:
             point_a, point_b = point_b, point_a
-        self.a = point_a
-        self.b = point_b
-        self.c = point_c
+        self.a = tuple(point_a)
+        self.b = tuple(point_b)
+        self.c = tuple(point_c)
 
     def is_inside(self, point):
 
