@@ -1,20 +1,21 @@
 import matplotlib.pyplot as plt
 
 from planar_division import Division
-from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 class DivisionDrawer:
     def __init__(self, division):
         self.division = division
         self.fig, self.ax = plt.subplots()
         self.ax.set_aspect('equal')
-        self.ax.set_xlim(0, GLOBAL_WIDTH)
-        self.ax.set_ylim(0, GLOBAL_HEIGHT)
+        self.ax.set_xlim(min(point[0] for polygon in division.polygons[1:] for point in polygon.points) - 5,
+                         max(point[0] for polygon in division.polygons[1:] for point in polygon.points) + 5)
+        self.ax.set_ylim(min(point[1] for polygon in division.polygons[1:] for point in polygon.points) - 5,
+                         max(point[1] for polygon in division.polygons[1:] for point in polygon.points) + 5)
 
     def draw(self, with_triangles):
         self.ax.plot(self.division.searched_point[0], self.division.searched_point[1], 'go')
         black_lines = set()
-        for polygon in self.division.polygons:
+        for polygon in self.division.polygons[1:]:
             for i in range(len(polygon.points)):
                 point = polygon.points[i]
                 self.ax.plot(point[0], point[1], 'bo')
