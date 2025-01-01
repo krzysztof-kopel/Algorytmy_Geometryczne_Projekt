@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
-class DivsionDrawer:
+class DivisionDrawer:
     def __init__(self, division):
         self.division = division
         self.fig, self.ax = plt.subplots()
@@ -43,5 +43,5 @@ if __name__ == "__main__":
     from file_input import get_division_from_file
     division = get_division_from_file("test_output_presentation.txt")
     division.triangulate_all()
-    drawer = DivsionDrawer(division)
+    drawer = DivisionDrawer(division)
     drawer.draw(with_triangles=True)
