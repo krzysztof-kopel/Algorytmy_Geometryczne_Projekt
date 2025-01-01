@@ -7,7 +7,7 @@ class Division:
         self.polygons = []
         # Pierwszy wielokąt reprezentuje wszystko co znajduje się "na zewnątrz" podziału planarnego.
         self.polygons.append(Polygon())
-        self.searched_point = None
+        self.searched_point = (25, 25)
 
     def __repr__(self):
         return f"Division(searched_point={self.searched_point} polygons={self.polygons})"
