@@ -21,6 +21,12 @@ class Division:
             division.polygons.append(next_polygon)
         return division
 
+    def triangulate_all(self):
+        for polygon in self.polygons:
+            if len(polygon.points) == 0:
+                continue
+            polygon.triangulate()
+
 
 class Polygon:
     # W teorii moglibyśmy indeksować wielokąty po ich pozycji w tablicy w Division, ale tak chyba będzie lepiej zwrócić
@@ -41,10 +47,10 @@ class Polygon:
         mesh_info.set_facets(segments)  # Lista segmentów jako par indeksów
 
         # Buduj siatkę z ograniczeniami
-        mesh = build(mesh_info)
+        mesh = build(mesh_info, quality_meshing=False)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
         triangles = [Triangle(*triangle) for triangle in triangles]
-        self.triangles.append(triangles)
+        self.triangles = triangles
         return triangles
 
     def __repr__(self):
@@ -55,9 +61,9 @@ class Triangle:
         # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
         if mat_det(point_a, point_b, point_c) < 0:
             point_a, point_b = point_b, point_a
-        self.a = point_a
-        self.b = point_b
-        self.c = point_c
+        self.a = tuple(point_a)
+        self.b = tuple(point_b)
+        self.c = tuple(point_c)
 
     def is_inside(self, point):
 

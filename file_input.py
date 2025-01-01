@@ -18,7 +18,9 @@ def save_division_to_file(division: Division, file_path: str) -> None:
     with open(file_path, "w") as file:
         file.write(f"({division.searched_point[0]}, {division.searched_point[1]})\n")
         file.write(f"{len(division.polygons) - 1}\n")
-        for polygon in division.polygons[1:]:
+        for polygon in division.polygons:
+            if len(polygon.points) == 0:
+                continue
             file.write("; ".join([f"({point[0]}, {point[1]})" for point in polygon.points]) + "\n")
 
 if __name__ == "__main__":

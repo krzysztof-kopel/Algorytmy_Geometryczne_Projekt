@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 from planar_division import Division
+from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 
 class PolygonDrawer:
@@ -15,8 +16,8 @@ class PolygonDrawer:
 
         self.ax.set_title("Obecnie rysujesz wielokąt nr 0")
         self.ax.set_aspect('equal')
-        self.ax.set_xlim(0, 50)
-        self.ax.set_ylim(0, 50)
+        self.ax.set_xlim(0, GLOBAL_WIDTH)
+        self.ax.set_ylim(0, GLOBAL_HEIGHT)
 
         button_ax = plt.axes([0.3, 0.015, 0.4, 0.04])
         self.button = Button(button_ax, 'Dodaj poszukiwany punkt')
@@ -52,10 +53,10 @@ class PolygonDrawer:
                 self.ax.plot(self.current_polygon_start_point[0], self.current_polygon_start_point[1], 'bo')
                 if len(self.current_polygon) > 1:
                     x, y = zip(*[self.current_polygon[-1], self.current_polygon[0]])
-                    self.ax.plot(x, y, 'r-')
+                    self.ax.plot(x, y, 'k-')
                 for i in range(len(self.current_polygon) - 1):
                     x, y = zip(*[self.current_polygon[i], self.current_polygon[i + 1]])
-                    self.ax.plot(x, y, 'r-')
+                    self.ax.plot(x, y, 'k-')
                 self.polygons.append(self.current_polygon)
                 self.current_polygon = []
                 self.current_polygon_start_point = None
