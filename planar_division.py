@@ -23,6 +23,8 @@ class Division:
 
     def triangulate_all(self):
         for polygon in self.polygons:
+            if len(polygon.points) == 0:
+                continue
             polygon.triangulate()
 
 
@@ -48,7 +50,7 @@ class Polygon:
         mesh = build(mesh_info)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
         triangles = [Triangle(*triangle) for triangle in triangles]
-        self.triangles.append(triangles)
+        self.triangles = triangles
         return triangles
 
     def __repr__(self):
