@@ -63,7 +63,7 @@ class Polygon:
         # Buduj siatkę z ograniczeniami
         mesh = build(mesh_info, quality_meshing=False)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
-        triangles = [Triangle(*triangle) for triangle in triangles]
+        triangles = [Triangle(*triangle, self) for triangle in triangles]
         self.triangles = triangles
         return triangles
 
@@ -71,13 +71,14 @@ class Polygon:
         return f"Polygon(id={self.id}, points={self.points})"
 
 class Triangle:
-    def __init__(self, point_a, point_b, point_c):
+    def __init__(self, point_a, point_b, point_c, poligon):
         # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
         if mat_det(point_a, point_b, point_c) < 0:
             point_a, point_b = point_b, point_a
         self.a = tuple(point_a)
         self.b = tuple(point_b)
         self.c = tuple(point_c)
+        self.poligon = poligon
 
     def is_inside(self, point):
 
