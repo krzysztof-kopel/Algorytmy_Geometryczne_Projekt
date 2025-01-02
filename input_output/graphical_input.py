@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
-from planar_division import Division
-from util import GLOBAL_HEIGHT, GLOBAL_WIDTH
+from util.util import Division
+from util.util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 
 class PolygonSetter:

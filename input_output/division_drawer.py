@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from planar_division import Division
+from util.util import Division
 
 class DivisionDrawer:
     def __init__(self, division):
@@ -48,7 +48,7 @@ def draw_polygonal_division(division: Division, with_triangles: bool = False):
 
 if __name__ == "__main__":
     from file_input import get_division_from_file
-    division = get_division_from_file("test_output_presentation.txt")
+    division = get_division_from_file("../input_output_files/test_output_presentation.txt")
     division.triangulate_all()
     drawer = DivisionDrawer(division)
     drawer.draw(with_triangles=True)

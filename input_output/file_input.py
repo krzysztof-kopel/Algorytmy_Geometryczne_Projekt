@@ -1,4 +1,4 @@
-from planar_division import Division, Polygon
+from util.util import Division, Polygon
 
 def get_division_from_file(file_path: str) -> Division:
     division = Division()
@@ -25,5 +25,5 @@ def save_division_to_file(division: Division, file_path: str) -> None:
             file.write("; ".join([f"({point[0]}, {point[1]})" for point in polygon.points]) + "\n")
 
 if __name__ == "__main__":
-    division = get_division_from_file("test_input.txt")
+    division = get_division_from_file("../input_output_files/test_input.txt")
     print(division)
