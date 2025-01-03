@@ -78,10 +78,10 @@ class Triangle:
         self.a = tuple(point_a)
         self.b = tuple(point_b)
         self.c = tuple(point_c)
-        self.poligon = None
+        self.polygon = None
 
     def add_polygon(self, polygon):
-        self.poligon = polygon
+        self.polygon = polygon
 
     def is_inside(self, point):
 
