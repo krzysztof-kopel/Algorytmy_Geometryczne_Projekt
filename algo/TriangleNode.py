@@ -1,3 +1,5 @@
+from util.util import mat_det
+
 class TriangleNode:
     def __init__(self, body, points, polygon=None):
         self.children = set()
@@ -31,11 +33,9 @@ class TriangleNode:
         self.children.add(child)
 
     def is_inside(self, point):
-        def orientation(a, b, c):
-            return (b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0])
 
-        det1 = orientation(self.coordinates[0], self.coordinates[1], point)
-        det2 = orientation(self.coordinates[1], self.coordinates[2], point)
-        det3 = orientation(self.coordinates[2], self.coordinates[0], point)
+        det1 = mat_det(self.coordinates[0], self.coordinates[1], point)
+        det2 = mat_det(self.coordinates[1], self.coordinates[2], point)
+        det3 = mat_det(self.coordinates[2], self.coordinates[0], point)
 
         return det1 > 0 and det2 > 0 and det3 > 0
