@@ -1,9 +1,10 @@
 class TriangleNode:
-    def __init__(self, body, points):
+    def __init__(self, body, points, polygon=None):
         self.children = set()
         self.body = body
         self.points = points
         self.coordinates = [self.points[i] for i in self.body]
+        self.parent = polygon
 
     def __getitem__(self, index):
         return self.body[index]
