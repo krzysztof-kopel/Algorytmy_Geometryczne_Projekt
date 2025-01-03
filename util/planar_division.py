@@ -23,7 +23,8 @@ class Division:
         return division
 
     def triangulate_all(self):
-        for polygon in self.polygons:
+        self.polygons[0].triangulate()
+        for polygon in self.polygons[1:]:
             if len(polygon.points) == 0:
                 continue
             polygon.triangulate()
@@ -45,7 +46,7 @@ class Division:
 class Polygon:
     # W teorii moglibyśmy indeksować wielokąty po ich pozycji w tablicy w Division, ale tak chyba będzie lepiej zwrócić
     # jako output użytkownikowi.
-    __current_id = 1
+    __current_id = 0
 
     def __init__(self):
         self.id = Polygon.__current_id

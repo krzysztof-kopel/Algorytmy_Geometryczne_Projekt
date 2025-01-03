@@ -81,24 +81,26 @@ def hierarchy(division: Division) -> TriangleNode:
     if len(division.polygons[0].points) == 0:
         division.set_supertriangle()
     division.triangulate_all()
+    triangles_to_parents = dict()
+    for polygon in division.polygons[1:]:
+        for triangle in polygon.triangles:
+            triangles_to_parents[tuple(sorted([triangle.a, triangle.b, triangle.c]))] = polygon
 
-    all_points = []
-    all_triangles = []
 
-    for polygon in division.polygons:
-        all_points.extend(polygon.points)
-        all_triangles.extend(polygon.triangles)
 
-    triangles = [
-        TriangleNode([all_points.index(t.a), all_points.index(t.b), all_points.index(t.c)], all_points, t.polygon)
-        for t in all_triangles
-    ]
+    temp_triangles = delaunay(all_points, polygon=False, diagonals=all_segments)
+    triangles = [TriangleNode(triangle, all_points) for triangle in temp_triangles]
+    for triangle in triangles:
+        triangle_as_point_tuple = tuple(sorted((triangle.coordinates[0], triangle.coordinates[1], triangle.coordinates[2])))
+        if triangle_as_point_tuple in triangles_to_parents:
+            triangle.parent = triangles_to_parents[triangle_as_point_tuple]
+        else:
+            triangle.parent = division.polygons[0]
 
     removed_points = dict()
 
     while len(triangles) > 1:
-        to_remove = independent_vertices(triangles, len(all_points))
-        to_remove.sort(reverse=True)
+        to_remove = independent_vertices(triangles, len(all_points) - 3)
         for i in to_remove:
             removed_points[i] = []
             for triangle in triangles:

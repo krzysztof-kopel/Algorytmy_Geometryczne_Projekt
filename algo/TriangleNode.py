@@ -28,11 +28,7 @@ class TriangleNode:
         return self.body
 
     def add_potential_child(self, child):
-        for i in range(2):
-            if child[i] in self.body:
-                if child[(i + 1) % 3] in self.body or child[(i + 2) % 3] in self.body:
-                    self.children.add(child)
-                break
+        self.children.add(child)
 
     def is_inside(self, point):
         def orientation(a, b, c):
