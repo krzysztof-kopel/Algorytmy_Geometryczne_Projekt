@@ -1,6 +1,5 @@
-from thisnonsense import *
+from algorithm import *
 import numpy as np
-from  draw import draw_polygon
 
 example = np.array([[0.46169355, 0.87175325],
                     [0.38508065, 0.61201299],
