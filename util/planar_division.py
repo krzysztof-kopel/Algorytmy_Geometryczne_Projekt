@@ -71,14 +71,17 @@ class Polygon:
         return f"Polygon(id={self.id}, points={self.points})"
 
 class Triangle:
-    def __init__(self, point_a, point_b, point_c, poligon):
+    def __init__(self, point_a, point_b, point_c):
         # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
         if mat_det(point_a, point_b, point_c) < 0:
             point_a, point_b = point_b, point_a
         self.a = tuple(point_a)
         self.b = tuple(point_b)
         self.c = tuple(point_c)
-        self.poligon = poligon
+        self.poligon = None
+
+    def add_polygon(self, polygon):
+        self.poligon = polygon
 
     def is_inside(self, point):
 
