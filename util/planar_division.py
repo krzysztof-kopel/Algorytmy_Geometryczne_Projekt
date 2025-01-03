@@ -1,5 +1,5 @@
 from meshpy.triangle import MeshInfo, build
-from util import mat_det
+from util.util import mat_det
 
 
 class Division:
@@ -71,14 +71,14 @@ class Polygon:
         return f"Polygon(id={self.id}, points={self.points})"
 
 class Triangle:
-    def __init__(self, point_a, point_b, point_c):
+    def __init__(self, point_a, point_b, point_c, polygon_parent=None):
         # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
         if mat_det(point_a, point_b, point_c) < 0:
             point_a, point_b = point_b, point_a
         self.a = tuple(point_a)
         self.b = tuple(point_b)
         self.c = tuple(point_c)
-        self.polygon = None
+        self.polygon = polygon_parent
 
     def add_polygon(self, polygon):
         self.polygon = polygon

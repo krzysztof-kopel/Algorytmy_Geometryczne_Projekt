@@ -1,6 +1,6 @@
 from copy import deepcopy
-from TriangleNode import TriangleNode
-from delaunay import *
+from algo.TriangleNode import TriangleNode
+from algo.delaunay import *
 from util.planar_division import Division, Polygon
 
 
