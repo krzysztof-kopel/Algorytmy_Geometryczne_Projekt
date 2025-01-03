@@ -22,4 +22,3 @@ def draw_polygon():
     plt.title("Wielokąt")
     plt.show()
     return points
-

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from util.util import Division
+from util.planar_division import Division
 
 class DivisionDrawer:
     def __init__(self, division):
