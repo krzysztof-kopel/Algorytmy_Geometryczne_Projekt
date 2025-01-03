@@ -76,13 +76,15 @@ def translate_triangulation_indices(triangles: list, triangles_points: list, ori
     return translated_triangles
 
 
-def hierarchy(points) -> TriangleNode:
+def hierarchy(points, diagonals=None) -> TriangleNode:
     super_triangle = supertriangle(points)
     removed_points = dict()
     all_points = points.tolist() + super_triangle
-    temp_triangles = delaunay(all_points, polygon=False,
-                              diagonals=[[super_triangle[0], super_triangle[1]], [super_triangle[1], super_triangle[2]],
-                                         [super_triangle[2], super_triangle[0]]])
+    segments = [[super_triangle[0], super_triangle[1]], [super_triangle[1], super_triangle[2]],
+                                         [super_triangle[2], super_triangle[0]]]
+    if diagonals:
+        segments.extend(diagonals)
+    temp_triangles = delaunay(all_points, polygon=False, diagonals=segments)
     triangles = [TriangleNode(triangle, all_points) for triangle in temp_triangles]
     while len(triangles) > 1:
         to_remove = independent_vertices(triangles, len(points))
