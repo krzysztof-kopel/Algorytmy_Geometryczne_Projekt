@@ -91,7 +91,7 @@ class Polygon:
         # Buduj siatkę z ograniczeniami
         mesh = build(mesh_info, quality_meshing=False)
         triangles = [[mesh.points[i] for i in triangle] for triangle in mesh.elements]
-        triangles = [Triangle(*triangle, self) for triangle in triangles]
+        triangles = [Triangle(triangle, body_indices=None, polygon=self) for triangle in triangles]
         self.triangles = triangles
         return triangles
 
@@ -99,22 +99,48 @@ class Polygon:
         return f"Polygon(id={self.id}, points={self.points})"
 
 class Triangle:
-    def __init__(self, point_a, point_b, point_c, polygon_parent=None):
-        # Upewniamy się że punkty są podane w odpowiedniej kolejności, to jest przeciwnie do ruchu wskazówek zegara.
-        if mat_det(point_a, point_b, point_c) < 0:
-            point_a, point_b = point_b, point_a
-        self.a = tuple(point_a)
-        self.b = tuple(point_b)
-        self.c = tuple(point_c)
-        self.polygon = polygon_parent
+    # Jeśli nie podajemy body_indices, to przyjmujemy, że points = wierzchołki trójkąta.
+    # Jeśli podajemy body_indices, to points = wszystkie punkty.
+    def __init__(self, points, *, body_indices=None, polygon=None):
+        if body_indices:
+            self.body = body_indices
+            self.coordinates = [points[i] for i in self.body]
+        else:
+            self.body = None
+            self.coordinates = [tuple(p) for p in points]
+        if mat_det(*self.coordinates) < 0:
+            self.coordinates[0], self.coordinates[1] = self.coordinates[1], self.coordinates[0]
+        self.parent = polygon
+        self.children = set()
 
-    def add_polygon(self, polygon):
-        self.polygon = polygon
+    def __getitem__(self, index):
+        return self.body[index]
+
+    def __setitem__(self, index, value):
+        self.body[index] = value
+
+    def __repr__(self):
+        return str(self.body) + ":" + str(self.children)
+
+    def __str__(self):
+        return str(self.body)
+
+    def __iter__(self):
+        return iter(self.body)
+
+    def __contains__(self, item):
+        return item in self.body
+
+    def tolist(self):
+        return self.body
+
+    def add_potential_child(self, child):
+        self.children.add(child)
 
     def is_inside(self, point):
 
-        det1 = mat_det(self.a, self.b, point)
-        det2 = mat_det(self.b, self.c, point)
-        det3 = mat_det(self.c, self.a, point)
+        det1 = mat_det(self.coordinates[0], self.coordinates[1], point)
+        det2 = mat_det(self.coordinates[1], self.coordinates[2], point)
+        det3 = mat_det(self.coordinates[2], self.coordinates[0], point)
 
         return det1 > 0 and det2 > 0 and det3 > 0

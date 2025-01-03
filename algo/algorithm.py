@@ -1,7 +1,6 @@
 from copy import deepcopy
-from algo.TriangleNode import TriangleNode
 from algo.delaunay import *
-from util.planar_division import Division, Polygon
+from util.planar_division import Division, Polygon, Triangle
 
 
 def triangulation_as_graph(triangles_as_indices, n):
@@ -77,19 +76,19 @@ def translate_triangulation_indices(triangles: list, triangles_points: list, ori
     return translated_triangles
 
 
-def hierarchy(division: Division) -> TriangleNode:
+def hierarchy(division: Division) -> Triangle:
     if len(division.polygons[0].points) == 0:
         division.set_supertriangle()
     division.triangulate_all()
     triangles_to_parents = dict()
     for polygon in division.polygons[1:]:
         for triangle in polygon.triangles:
-            triangles_to_parents[tuple(sorted([triangle.a, triangle.b, triangle.c]))] = polygon
+            triangles_to_parents[tuple(sorted([triangle.coordinates[0], triangle.coordinates[1], triangle.coordinates[2]]))] = polygon
 
     all_points, all_segments = division.get_points_and_diagonals()
 
     temp_triangles = delaunay(all_points, polygon=False, diagonals=all_segments)
-    triangles = [TriangleNode(triangle, all_points) for triangle in temp_triangles]
+    triangles = [Triangle(all_points, body_indices=triangle) for triangle in temp_triangles]
     for triangle in triangles:
         triangle_as_point_tuple = tuple(sorted((triangle.coordinates[0], triangle.coordinates[1], triangle.coordinates[2])))
         if triangle_as_point_tuple in triangles_to_parents:
@@ -115,7 +114,7 @@ def hierarchy(division: Division) -> TriangleNode:
 
             temp_new_triangles = delaunay(polygon)
             temp_new_triangles = translate_triangulation_indices(temp_new_triangles, polygon, all_points)
-            new_triangles = [TriangleNode(triangle, all_points) for triangle in temp_new_triangles]
+            new_triangles = [Triangle(all_points, body_indices=triangle) for triangle in temp_new_triangles]
             for triangle in removed_points[point]:
                 for n_triangle in new_triangles:
                     n_triangle.add_potential_child(triangle)
@@ -124,7 +123,7 @@ def hierarchy(division: Division) -> TriangleNode:
             triangles.extend(new_triangles)
     return triangles[0]
 
-def find_smallest_triangle_in_hierarchy(header: TriangleNode, point) -> 'Polygon':
+def find_smallest_triangle_in_hierarchy(header: Triangle, point) -> 'Polygon':
     while len(header.children) > 0:
         for c in header.children:
             if c.is_inside(point):
