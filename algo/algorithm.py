@@ -86,7 +86,7 @@ def hierarchy(division: Division) -> TriangleNode:
         for triangle in polygon.triangles:
             triangles_to_parents[tuple(sorted([triangle.a, triangle.b, triangle.c]))] = polygon
 
-
+    all_points, all_segments = division.get_points_and_diagonals()
 
     temp_triangles = delaunay(all_points, polygon=False, diagonals=all_segments)
     triangles = [TriangleNode(triangle, all_points) for triangle in temp_triangles]

@@ -41,6 +41,33 @@ class Division:
         p2 = (max_x + 2 * dif_x, min_y - dif_y)
         p3 = (min_x - dif_x, max_y + 2 * dif_y)
         self.polygons[0].points = [p1, p2, p3]
+        
+    def get_points_and_diagonals(self):
+        all_points = list()
+        all_segments = set()
+
+        for polygon in self.polygons[1:]:
+            all_points.extend(polygon.points)
+            for i in range(len(polygon.points)):
+                if not (polygon.points[(i + 1) % len(polygon.points)], polygon.points[i]) in all_segments:
+                    all_segments.add((polygon.points[i], polygon.points[(i + 1) % len(polygon.points)]))
+        all_points.extend(self.polygons[0].points)
+        all_segments.add((self.polygons[0].points[0], self.polygons[0].points[1]))
+        all_segments.add((self.polygons[0].points[1], self.polygons[0].points[2]))
+        all_segments.add((self.polygons[0].points[2], self.polygons[0].points[0]))
+        all_segments = list(all_segments)
+
+        all_unique_points = []
+        unique_points_set = set()
+        for point in all_points:
+            if point in unique_points_set:
+                continue
+            else:
+                unique_points_set.add(point)
+                all_unique_points.append(point)
+        all_points = all_unique_points
+
+        return all_points, all_segments
 
 
 class Polygon:
