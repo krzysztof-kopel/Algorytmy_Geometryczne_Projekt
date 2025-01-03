@@ -1,10 +1,11 @@
 from copy import deepcopy
 from TriangleNode import TriangleNode
 from delaunay import *
+from util.planar_division import Division, Polygon
 
 
 def triangulation_as_graph(triangles_as_indices, n):
-    graph = [set() for i in range(n)]
+    graph = [set() for _ in range(n)]
     for p1, p2, p3 in triangles_as_indices:
         if p1 < n and p2 < n:
             graph[p1].add(p2)
@@ -20,7 +21,7 @@ def triangulation_as_graph(triangles_as_indices, n):
 
 def independent_vertices(triangles_as_indices, n) -> list:
     graph = triangulation_as_graph(triangles_as_indices, n)
-    visited = [False for i in range(n)]
+    visited = [False for _ in range(n)]
     independent = []
 
     queue = []
@@ -76,29 +77,40 @@ def translate_triangulation_indices(triangles: list, triangles_points: list, ori
     return translated_triangles
 
 
-def hierarchy(points, diagonals=None) -> TriangleNode:
-    super_triangle = supertriangle(points)
+def hierarchy(division: Division) -> TriangleNode:
+    if len(division.polygons[0].points) == 0:
+        division.set_supertriangle()
+    division.triangulate_all()
+
+    all_points = []
+    all_triangles = []
+
+    for polygon in division.polygons:
+        all_points.extend(polygon.points)
+        all_triangles.extend(polygon.triangles)
+
+    triangles = [
+        TriangleNode([all_points.index(t.a), all_points.index(t.b), all_points.index(t.c)], all_points, t.polygon)
+        for t in all_triangles
+    ]
+
     removed_points = dict()
-    all_points = points.tolist() + super_triangle
-    segments = [[super_triangle[0], super_triangle[1]], [super_triangle[1], super_triangle[2]],
-                                         [super_triangle[2], super_triangle[0]]]
-    if diagonals:
-        segments.extend(diagonals)
-    temp_triangles = delaunay(all_points, polygon=False, diagonals=segments)
-    triangles = [TriangleNode(triangle, all_points) for triangle in temp_triangles]
+
     while len(triangles) > 1:
-        to_remove = independent_vertices(triangles, len(points))
+        to_remove = independent_vertices(triangles, len(all_points))
         to_remove.sort(reverse=True)
         for i in to_remove:
             removed_points[i] = []
             for triangle in triangles:
                 if i in triangle:
                     removed_points[i].append(triangle)
+
         for point in to_remove:
             polygon_indices = triangles_to_polygon(point, removed_points[point])
             polygon = []
             for index in polygon_indices:
                 polygon.append(all_points[index])
+
             temp_new_triangles = delaunay(polygon)
             temp_new_triangles = translate_triangulation_indices(temp_new_triangles, polygon, all_points)
             new_triangles = [TriangleNode(triangle, all_points) for triangle in temp_new_triangles]
@@ -110,12 +122,10 @@ def hierarchy(points, diagonals=None) -> TriangleNode:
             triangles.extend(new_triangles)
     return triangles[0]
 
-def find_smallest_triangle_in_hierarchy(header: TriangleNode, point):
-    if not header.is_inside(point):
-        print("Error: punkt poza zasięgiem triangulacji")
-        return
+def find_smallest_triangle_in_hierarchy(header: TriangleNode, point) -> 'Polygon':
     while len(header.children) > 0:
         for c in header.children:
             if c.is_inside(point):
                 header = c
                 break
+    return header.parent
