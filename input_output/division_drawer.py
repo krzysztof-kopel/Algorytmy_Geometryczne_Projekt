@@ -51,15 +51,16 @@ class DivisionDrawer:
                         y = (triangle.coordinates[2][1], triangle.coordinates[0][1])
                         self.ax.plot(x, y, 'r-')
         self.fig.canvas.draw()
-        plt.show()
+        return plt
 
 def draw_polygonal_division(division: Division, with_triangles: bool = False):
     drawer = DivisionDrawer(division, True)
-    drawer.draw(with_triangles=with_triangles)
+    drawer.draw(with_triangles=with_triangles).show()
 
 if __name__ == "__main__":
     from file_input import get_division_from_file
     division = get_division_from_file("../input_output_files/test_output_presentation.txt")
     division.triangulate_all()
     drawer = DivisionDrawer(division, True)
-    drawer.draw(with_triangles=True)
+    plt = drawer.draw(with_triangles=True)
+    plt.show()
