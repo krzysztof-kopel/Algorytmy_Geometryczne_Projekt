@@ -1,4 +1,4 @@
-from util.util import Division, Polygon
+from util.planar_division import Division, Polygon
 
 def get_division_from_file(file_path: str) -> Division:
     division = Division()
