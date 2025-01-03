@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
-from util.util import Division
+from util.planar_division import Division
 from util.util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 
