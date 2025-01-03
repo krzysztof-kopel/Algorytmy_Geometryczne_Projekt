@@ -18,15 +18,3 @@ def delaunay(points, polygon=True, diagonals=None):
     mesh = build(mesh_info, allow_boundary_steiner=False, quality_meshing=False, allow_volume_steiner=False)
     triangles_as_indices = [[i for i in triangle] for triangle in mesh.elements]
     return triangles_as_indices
-
-def supertriangle(points):
-    min_x = min(point[0] for point in points)
-    max_x = max(point[0] for point in points)
-    min_y = min(point[1] for point in points)
-    max_y = max(point[1] for point in points)
-    dif_x = max_x - min_x
-    dif_y = max_y - min_y
-    p1 = [min_x -  dif_x, min_y - dif_y]
-    p2 = [max_x + 2 * dif_x, min_y - dif_y]
-    p3 = [min_x - dif_x, max_y + 2 * dif_y]
-    return [p1, p2, p3]
