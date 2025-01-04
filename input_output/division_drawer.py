@@ -4,14 +4,19 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
 from util.drawable_division import DrawableDivision
+from util.planar_division import Division
 
 
 class DivisionDrawer:
     def __init__(self, divisions, with_supertriangle):
         if type(divisions) is DrawableDivision:
             self.divisions = [divisions]
+        elif type(division) is Division:
+            self.divisions = [DrawableDivision(division)]
         else:
             self.divisions = divisions
+            for i in range(len(self.divisions)):
+                self.divisions[i] = DrawableDivision(self.divisions[i])
         self.current_division_num = 0
         self.fig, self.ax = plt.subplots(figsize=(10, 10))
         self.ax.set_aspect('equal')
@@ -93,8 +98,10 @@ class DivisionDrawer:
         plt.show()
 
 def draw_polygonal_division(division: Division, with_triangles: bool = False):
-    drawer = DivisionDrawer(division, True)
-    drawer.draw(with_triangles, 0)
+    drawable_division = DrawableDivision()
+    drawable_division.copy_data_from_division(division)
+    curr_drawer = DivisionDrawer(division, True)
+    curr_drawer.draw(with_triangles, 0)
 
 if __name__ == "__main__":
     from file_input import get_division_from_file
