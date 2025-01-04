@@ -4,6 +4,8 @@ class DrawableDivision(Division):
     def __init__(self, division: Division):
         super().__init__()
         self.copy_data_from_division(division)
+        self.colored_points = []
+        self.colored_triangle = None
 
     def copy_data_from_division(self, division: Division):
         self.polygons = division.polygons
