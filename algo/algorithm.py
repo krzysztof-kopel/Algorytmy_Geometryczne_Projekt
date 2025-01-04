@@ -184,5 +184,5 @@ def find_smallest_triangle_in_hierarchy(header: Triangle, point: tuple[float, fl
                     i += 1
                 header = c
                 break
-    # drawer.divisions[drawer.later_part_start - 1].colored_triangle = header
+    drawer.divisions[-1].colored_triangle = header
     return header.parent, drawer
