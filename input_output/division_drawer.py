@@ -16,7 +16,8 @@ class DivisionDrawer:
         else:
             self.divisions = divisions
             for i in range(len(self.divisions)):
-                self.divisions[i] = DrawableDivision(self.divisions[i])
+                if type(self.divisions[i]) is Division:
+                    self.divisions[i] = DrawableDivision(self.divisions[i])
         self.current_division_num = 0
         self.fig, self.ax = plt.subplots(figsize=(10, 10))
         self.ax.set_aspect('equal')
