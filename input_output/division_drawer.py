@@ -11,7 +11,7 @@ class DivisionDrawer:
     def __init__(self, divisions, with_supertriangle):
         if type(divisions) is DrawableDivision:
             self.divisions = [divisions]
-        elif type(division) is Division:
+        elif type(divisions) is Division:
             self.divisions = [DrawableDivision(division)]
         else:
             self.divisions = divisions
@@ -70,7 +70,6 @@ class DivisionDrawer:
         for polygon in polygons:
             for i in range(len(polygon.points)):
                 point = polygon.points[i]
-                self.ax.plot(point[0], point[1], 'bo')
                 x, y = zip(*[point, polygon.points[(i + 1) % len(polygon.points)]])
                 self.ax.plot(x, y, 'k-')
                 black_lines.add((point, polygon.points[(i + 1) % len(polygon.points)]))
@@ -98,15 +97,13 @@ class DivisionDrawer:
         plt.show()
 
 def draw_polygonal_division(division: Division, with_triangles: bool = False):
-    drawable_division = DrawableDivision()
-    drawable_division.copy_data_from_division(division)
     curr_drawer = DivisionDrawer(division, True)
     curr_drawer.draw(with_triangles, 0)
 
 if __name__ == "__main__":
     from file_input import get_division_from_file
     division = get_division_from_file("../input_output_files/test_output_presentation.txt")
-    division2 = deepcopy(division)
+    division2 = get_division_from_file("../input_output_files/test_input.txt")
     division.triangulate_all()
     drawer = DivisionDrawer([division2, division], True)
     drawer.draw()
