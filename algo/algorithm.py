@@ -78,7 +78,7 @@ def translate_triangulation_indices(triangles: list, triangles_points: list, ori
     return translated_triangles
 
 
-def hierarchy(division: Division, drawable: bool=False) -> Triangle:
+def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[int, int]=None) -> tuple[Triangle, DivisionDrawer | None]:
     divisions_to_draw = []
     if len(division.polygons[0].points) == 0:
         division.set_supertriangle()
@@ -105,6 +105,7 @@ def hierarchy(division: Division, drawable: bool=False) -> Triangle:
     if drawable:
         polygon_triangles = [i.to_polygon() for i in triangles]
         division = Division()
+        division.searched_point = searched_point
         division.polygons = polygon_triangles
         divisions_to_draw.append(deepcopy(division))
     removed_points = dict()
@@ -113,6 +114,7 @@ def hierarchy(division: Division, drawable: bool=False) -> Triangle:
         to_remove = independent_vertices(triangles, len(all_points) - 3)
         if drawable:
             division = DrawableDivision(Division())
+            division.searched_point = searched_point
             division.colored_points = [all_points[i] for i in to_remove]
             division.polygons = [i.to_polygon() for i in triangles]
             divisions_to_draw.append(deepcopy(division))
@@ -122,6 +124,8 @@ def hierarchy(division: Division, drawable: bool=False) -> Triangle:
                 if i in triangle:
                     removed_points[i].append(triangle)
 
+        if drawable:
+            to_remove_used = 1
         for point in to_remove:
             polygon_indices = triangles_to_polygon(point, removed_points[point])
             polygon = []
@@ -140,13 +144,15 @@ def hierarchy(division: Division, drawable: bool=False) -> Triangle:
             triangles.extend(new_triangles)
             if drawable:
                 division = DrawableDivision(Division())
+                division.searched_point = searched_point
+                division.colored_points = [all_points[i] for i in to_remove[to_remove_used:]]
+                to_remove_used += 1
                 division.polygons = [i.to_polygon() for i in triangles]
                 divisions_to_draw.append(deepcopy(division))
     drawer = None
     if drawable:
         drawer = DivisionDrawer(divisions_to_draw, True)
-        drawer.draw()
-    return triangles[0]
+    return triangles[0], drawer
 
 def find_smallest_triangle_in_hierarchy(header: Triangle, point) -> 'Polygon':
     while len(header.children) > 0:

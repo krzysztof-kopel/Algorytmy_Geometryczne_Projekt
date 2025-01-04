@@ -94,6 +94,8 @@ class DivisionDrawer:
                         x = (triangle.coordinates[2][0], triangle.coordinates[0][0])
                         y = (triangle.coordinates[2][1], triangle.coordinates[0][1])
                         self.ax.plot(x, y, 'r-')
+        for point in current_division.colored_points:
+            self.ax.plot(point[0], point[1], 'ro')
         self.fig.canvas.draw()
         plt.show()
 
