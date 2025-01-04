@@ -5,3 +5,7 @@ class DrawableDivision(Division):
         super().__init__()
         self.points_to_mark = []
         self.triangle_to_color = None
+
+    def copy_data_from_division(self, division: Division):
+        self.polygons = division.polygons
+        self.searched_point = division.searched_point
