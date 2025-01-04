@@ -102,6 +102,7 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
             triangle.parent = triangles_to_parents[triangle_as_point_tuple]
         else:
             triangle.parent = division.polygons[0]
+
     if drawable:
         polygon_triangles = [i.to_polygon() for i in triangles]
         division = Division()
@@ -112,6 +113,7 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
 
     while len(triangles) > 1:
         to_remove = independent_vertices(triangles, len(all_points) - 3)
+        to_remove.sort(key=lambda x: all_points[x][0])
         if drawable:
             division = DrawableDivision(Division())
             division.searched_point = searched_point
