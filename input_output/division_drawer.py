@@ -24,15 +24,15 @@ class DivisionDrawer:
         self.ax.set_title("Użyj przycisków na dole ekranu, aby oglądać kolejne kroki wizualizacji")
         self.supertriangle = with_supertriangle
         if not with_supertriangle:
-            self.ax.set_xlim(min(point[0] for polygon in division.polygons[1:] for point in polygon.points) - 5,
-                             max(point[0] for polygon in division.polygons[1:] for point in polygon.points) + 5)
-            self.ax.set_ylim(min(point[1] for polygon in division.polygons[1:] for point in polygon.points) - 5,
-                             max(point[1] for polygon in division.polygons[1:] for point in polygon.points) + 5)
+            self.ax.set_xlim(min(point[0] for polygon in divisions[0].polygons[1:] for point in polygon.points) - 5,
+                             max(point[0] for polygon in divisions[0].polygons[1:] for point in polygon.points) + 5)
+            self.ax.set_ylim(min(point[1] for polygon in divisions[0].polygons[1:] for point in polygon.points) - 5,
+                             max(point[1] for polygon in divisions[0].polygons[1:] for point in polygon.points) + 5)
         else:
-            self.ax.set_xlim(min(point[0] for polygon in division.polygons for point in polygon.points) - 5,
-                             max(point[0] for polygon in division.polygons for point in polygon.points) + 5)
-            self.ax.set_ylim(min(point[1] for polygon in division.polygons for point in polygon.points) - 5,
-                             max(point[1] for polygon in division.polygons for point in polygon.points) + 5)
+            self.ax.set_xlim(min(point[0] for polygon in divisions[0].polygons for point in polygon.points) - 5,
+                             max(point[0] for polygon in divisions[0].polygons for point in polygon.points) + 5)
+            self.ax.set_ylim(min(point[1] for polygon in divisions[0].polygons for point in polygon.points) - 5,
+                             max(point[1] for polygon in divisions[0].polygons for point in polygon.points) + 5)
 
         # Buttons for navigation
         self.ax_next = plt.axes((0.6, 0.02, 0.05, 0.05))  # Next button
