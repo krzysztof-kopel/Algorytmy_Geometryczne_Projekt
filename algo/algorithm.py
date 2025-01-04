@@ -113,6 +113,8 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
 
     while len(triangles) > 1:
         to_remove = independent_vertices(triangles, len(all_points) - 3)
+        # Wierzchołki usuwamy "od lewej do prawej" (wg współrzędnej x), aby osoba prezentująca wiedziała,
+        # który wierzchołek będzie usunięty jako następny.
         to_remove.sort(key=lambda x: all_points[x][0])
         if drawable:
             division = DrawableDivision(Division())
