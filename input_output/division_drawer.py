@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
 from util.drawable_division import DrawableDivision
-from util.planar_division import Division
+from util.planar_division import Division, Triangle
 
 
 class DivisionDrawer:
@@ -102,8 +102,13 @@ class DivisionDrawer:
         for point in current_division.colored_points:
             self.ax.plot(point[0], point[1], 'ro')
         if current_division.colored_triangle is not None:
-            x_coords = [point[0] for point in current_division.colored_triangle.coordinates]
-            y_coords = [point[1] for point in current_division.colored_triangle.coordinates]
+            coordinates = []
+            if type(current_division.colored_triangle) is Triangle:
+                coordinates = current_division.colored_triangle.coordinates
+            else:
+                coordinates = current_division.colored_triangle.points
+            x_coords = [point[0] for point in coordinates]
+            y_coords = [point[1] for point in coordinates]
             self.ax.fill(x_coords, y_coords, 'orange', alpha=0.5)
         self.fig.canvas.draw()
         plt.show()
