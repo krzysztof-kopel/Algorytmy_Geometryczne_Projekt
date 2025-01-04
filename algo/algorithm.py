@@ -127,6 +127,13 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
         if drawable:
             to_remove_used = 1
         for point in to_remove:
+            if drawable:
+                division = DrawableDivision(Division())
+                division.searched_point = searched_point
+                division.not_allowed_point = all_points[point]
+                division.colored_points = [all_points[i] for i in to_remove[to_remove_used:]]
+                division.polygons = [i.to_polygon() for i in triangles]
+                divisions_to_draw.append(deepcopy(division))
             polygon_indices = triangles_to_polygon(point, removed_points[point])
             polygon = []
             for index in polygon_indices:

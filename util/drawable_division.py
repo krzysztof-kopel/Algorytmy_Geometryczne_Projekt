@@ -6,6 +6,7 @@ class DrawableDivision(Division):
         self.copy_data_from_division(division)
         self.colored_points = []
         self.colored_triangle = None
+        self.not_allowed_point = None
 
     def copy_data_from_division(self, division: Division):
         self.polygons = division.polygons

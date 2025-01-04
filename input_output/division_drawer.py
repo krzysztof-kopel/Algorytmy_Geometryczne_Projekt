@@ -19,7 +19,7 @@ class DivisionDrawer:
                 if type(self.divisions[i]) is Division:
                     self.divisions[i] = DrawableDivision(self.divisions[i])
         self.current_division_num = 0
-        self.fig, self.ax = plt.subplots(figsize=(10, 10))
+        self.fig, self.ax = plt.subplots(figsize=(8, 8))
         self.ax.set_aspect('equal')
         self.ax.set_title("Użyj przycisków na dole ekranu, aby oglądać kolejne kroki wizualizacji")
         self.supertriangle = with_supertriangle
@@ -71,6 +71,11 @@ class DivisionDrawer:
         for polygon in polygons:
             for i in range(len(polygon.points)):
                 point = polygon.points[i]
+                if point == current_division.not_allowed_point:
+                    continue
+                self.ax.plot(point[0], point[1], 'bo')
+                if polygon.points[(i + 1) % len(polygon.points)] == current_division.not_allowed_point:
+                    continue
                 x, y = zip(*[point, polygon.points[(i + 1) % len(polygon.points)]])
                 self.ax.plot(x, y, 'k-')
                 black_lines.add((point, polygon.points[(i + 1) % len(polygon.points)]))
