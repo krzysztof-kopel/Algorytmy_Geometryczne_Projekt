@@ -98,6 +98,9 @@ class Polygon:
     def __repr__(self):
         return f"Polygon(id={self.id}, points={self.points})"
 
+    def __eq__(self, other):
+        return set(self.points) == set(other.points)
+
 class Triangle:
     # Jeśli nie podajemy body_indices, to przyjmujemy, że points = wierzchołki trójkąta.
     # Jeśli podajemy body_indices, to points = wszystkie punkty.

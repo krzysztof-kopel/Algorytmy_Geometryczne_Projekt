@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
@@ -103,6 +101,10 @@ class DivisionDrawer:
                         self.ax.plot(x, y, 'r-')
         for point in current_division.colored_points:
             self.ax.plot(point[0], point[1], 'ro')
+        if current_division.colored_triangle is not None:
+            x_coords = [point[0] for point in current_division.colored_triangle.coordinates]
+            y_coords = [point[1] for point in current_division.colored_triangle.coordinates]
+            self.ax.fill(x_coords, y_coords, 'orange', alpha=0.5)
         self.fig.canvas.draw()
         plt.show()
 
