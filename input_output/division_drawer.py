@@ -8,7 +8,7 @@ from util.planar_division import Division
 
 
 class DivisionDrawer:
-    def __init__(self, divisions, with_supertriangle):
+    def __init__(self, divisions: DrawableDivision | Division | list[DrawableDivision | Division], with_supertriangle):
         if type(divisions) is DrawableDivision:
             self.divisions = [divisions]
         elif type(divisions) is Division:
@@ -43,6 +43,8 @@ class DivisionDrawer:
 
         self.button_next.on_clicked(self.next_division)
         self.button_prev.on_clicked(self.prev_division)
+
+        self.later_part_start = None
 
     def start_config(self):
         self.ax.set_aspect('equal')
