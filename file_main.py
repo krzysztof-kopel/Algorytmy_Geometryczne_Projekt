@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from algo.algorithm import hierarchy, find_smallest_triangle_in_hierarchy
+from algorytm.algorithm import hierarchy, find_smallest_triangle_in_hierarchy
 from input_output.file_input import get_division_from_file
 from util.drawable_division import DrawableDivision
 

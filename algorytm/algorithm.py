@@ -1,5 +1,5 @@
 from copy import deepcopy
-from algo.delaunay import *
+from algorytm.triangulate import *
 from input_output.division_drawer import DivisionDrawer
 from util.planar_division import Division, Polygon, Triangle
 from util.drawable_division import DrawableDivision
@@ -94,7 +94,7 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
 
     all_points, all_segments = division.get_points_and_diagonals()
 
-    temp_triangles = delaunay(all_points, polygon=False, diagonals=all_segments)
+    temp_triangles = triangulate(all_points, polygon=False, diagonals=all_segments)
     triangles = [Triangle(all_points, body_indices=triangle) for triangle in temp_triangles]
     current_triangle_level += 1
     for triangle in triangles:
@@ -146,7 +146,7 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
             for index in polygon_indices:
                 polygon.append(all_points[index])
 
-            temp_new_triangles = delaunay(polygon)
+            temp_new_triangles = triangulate(polygon)
             temp_new_triangles = translate_triangulation_indices(temp_new_triangles, polygon, all_points)
             new_triangles = [Triangle(all_points, body_indices=triangle) for triangle in temp_new_triangles]
             current_triangle_level += 1
