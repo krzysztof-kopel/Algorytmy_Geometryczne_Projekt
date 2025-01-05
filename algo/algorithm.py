@@ -87,8 +87,6 @@ def hierarchy(division: Division, drawable: bool=False, searched_point: tuple[in
     if drawable:
         divisions_to_draw.append(deepcopy(division))
     division.triangulate_all()
-    if drawable:
-        divisions_to_draw.append(deepcopy(division))
     triangles_to_parents = dict()
     for polygon in division.polygons[1:]:
         for triangle in polygon.triangles:
