@@ -35,11 +35,9 @@ class Division:
         max_x = max(point[0] for point in points)
         min_y = min(point[1] for point in points)
         max_y = max(point[1] for point in points)
-        dif_x = max_x - min_x
-        dif_y = max_y - min_y
-        p1 = (min_x - dif_x, min_y - dif_y)
-        p2 = (max_x + 2 * dif_x, min_y - dif_y)
-        p3 = (min_x - dif_x, max_y + 2 * dif_y)
+        p1 = (min_x - 5, min_y - 5)
+        p2 = (max_x + max_y, min_y - 5)
+        p3 = (min_x - 5, max_y + max_x)
         self.polygons[0].points = [p1, p2, p3]
         
     def get_points_and_diagonals(self):
