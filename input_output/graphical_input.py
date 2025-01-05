@@ -6,7 +6,7 @@ from util.util import GLOBAL_HEIGHT, GLOBAL_WIDTH
 
 class PolygonSetter:
     def __init__(self):
-        self.fig, self.ax = plt.subplots()
+        self.fig, self.ax = plt.subplots(figsize=(8, 8))
         self.polygons = []
         self.current_polygon = []
         self.current_polygon_start_point = None
